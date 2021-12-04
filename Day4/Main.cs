@@ -8,7 +8,7 @@ namespace Day4
     {
         static void Main(string[] args)
         {
-            string[] lines = File.ReadAllLines("../../../example");
+            string[] lines = File.ReadAllLines("../../../input");
             int lineIndex = 0;
             
             string[] roundNumbersStrings = lines[lineIndex].Split(',');
@@ -44,8 +44,47 @@ namespace Day4
             }
             
             Part1(roundNumbers, bingos);
-            //Part2(roundNumbers, bingos);
+            Part2(roundNumbers, bingos);
 
+        }
+
+        static void Part2(int[] roundNumbers, List<Bingo> bingos)
+        {
+            bool found = false;
+            int round = 0;
+            Bingo won = null;
+            while (round < roundNumbers.Length && !found)
+            {
+                int nbBingo = 0;
+                while (nbBingo < bingos.Count && !found)
+                {
+                    found = bingos[nbBingo].DrawingNumber(roundNumbers[round]);
+                    if (found && bingos.Count < 2)
+                    {
+                        won = bingos[nbBingo];
+                    }
+                    else if (found && bingos.Count >= 2)
+                    {
+                        bingos.Remove(bingos[nbBingo]);
+                        found = false;
+                    }
+                    else
+                    {
+                        nbBingo++;
+                    }
+                }
+                round++;
+            }
+
+            if (won == null || round < 1)
+            {
+                Console.Error.WriteLine("Part 2: did not find winning bingo");    
+            }
+            else
+            {
+                Console.WriteLine("Part 2: Won Sum = {0}, lastRound = {1}, finalNumber = {2}",
+                    won.SumOfNonSelectedValues(), roundNumbers[round - 1], won.SumOfNonSelectedValues() * roundNumbers[round - 1]);
+            }
         }
 
         static void Part1(int[] roundNumbers, List<Bingo> bingos)
