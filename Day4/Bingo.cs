@@ -1,20 +1,20 @@
-﻿namespace Day4
+﻿using System.IO;
+
+namespace Day4
 {
     public class Bingo
     {
         private (int, bool)[][] table;
 
-        public Bingo(int[] input)
+        public Bingo(int[][] input)
         {
-            int indexInput = 0;
-            
             table = new (int, bool)[5][];
             for (int i = 0; i < 5; i++)
             {
                 table[i] = new (int, bool)[5];
                 for (int j = 0; j < 5; j++)
                 {
-                    table[i][j] = (input[indexInput], false);
+                    table[i][j] = (input[i][j], false);
                 }
             }
         }
@@ -32,6 +32,7 @@
                 {
                     if (table[i][j].Item1 == number)
                     {
+                        table[i][j].Item2 = true;
                         if (CheckWin(i, j))
                             return true;
                     }
@@ -71,6 +72,23 @@
             }
 
             return false;
+        }
+
+        public int SumOfNonSelectedValues()
+        {
+            int tt = 0;
+            foreach (var col in table)
+            {
+                foreach (var tuple in col)
+                {
+                    if (!tuple.Item2)
+                    {
+                        tt += tuple.Item1;
+                    }
+                }
+            }
+
+            return tt;
         }
     }
 }
