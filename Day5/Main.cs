@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Day5
@@ -7,7 +8,13 @@ namespace Day5
     {
         static void Main(string[] args)
         {
-            string[] lines = File.ReadAllLines("../../../example");
+            string[] parsed = File.ReadAllLines("../../../example");
+
+            List<Line> lines = new List<Line>();
+            foreach (var ex in parsed)
+            {
+                
+            }
         }
     }
 }
